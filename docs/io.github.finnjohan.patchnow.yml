@@ -1,0 +1,27 @@
+Categories:
+  - Security
+License: GPL-3.0-or-later
+AuthorName: Johan Finn
+SourceCode: https://github.com/finnjohan/patchnow-android
+IssueTracker: https://github.com/finnjohan/patchnow-android/issues
+Changelog: https://github.com/finnjohan/patchnow-android/blob/HEAD/CHANGELOG.md
+
+AutoName: PatchNow
+
+RepoType: git
+Repo: https://github.com/finnjohan/patchnow-android.git
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 1
+    commit: v1.0.0
+    subdir: app
+    gradle:
+      - yes
+    scandelete:
+      - app/debug.keystore
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.0.0
+CurrentVersionCode: 1
