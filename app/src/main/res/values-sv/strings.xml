@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Listan -->
+    <string name="settings">Inställningar</string>
+    <string name="refresh">Uppdatera</string>
+    <string name="back">Tillbaka</string>
+    <string name="checking">Kollar…</string>
+    <string name="no_data">Inga data än</string>
+    <string name="nothing_critical">Inget kritiskt just nu</string>
+    <plurals name="to_act_on">
+        <item quantity="one">1 sårbarhet att åtgärda nu</item>
+        <item quantity="other">%d sårbarheter att åtgärda nu</item>
+    </plurals>
+    <plurals name="new_recent">
+        <item quantity="one">1 ny de senaste två dygnen</item>
+        <item quantity="other">%d nya de senaste två dygnen</item>
+    </plurals>
+    <string name="checked_at">Kollat %1$s</string>
+    <string name="level_line">Nivå: %1$s · senaste %2$d dagarna</string>
+    <string name="error_offline">Ingen anslutning. Visar det som sparades %1$s.</string>
+    <string name="error_limit">%1$s har för mycket att göra just nu (begränsning). Försöker igen senare.</string>
+    <string name="error_partial">Kunde inte nå %1$s. Bedömningen kan vara ofullständig.</string>
+    <string name="section_critical">Åtgärda nu</string>
+    <string name="section_watch">Bevaka</string>
+    <string name="section_handled">Åtgärdat</string>
+    <string name="chip_exploited">Utnyttjas</string>
+    <string name="chip_ransomware">Ransomware</string>
+    <string name="chip_new">NY</string>
+    <string name="mark_handled">Markera som åtgärdad</string>
+    <string name="not_handled">Inte åtgärdad</string>
+    <string name="hide_vendor">Dölj %1$s</string>
+    <string name="undo">Ångra</string>
+    <string name="vendor_hidden">%1$s är dold. Visa igen under Inställningar.</string>
+    <string name="empty_period">Inga aktivt utnyttjade eller kritiska sårbarheter under perioden.</string>
+    <plurals name="hidden_by_platform">
+        <item quantity="one">1 kritisk sårbarhet på plattformar du inte bevakar är dold.</item>
+        <item quantity="other">%d kritiska sårbarheter på plattformar du inte bevakar är dolda.</item>
+    </plurals>
+    <string name="change_platforms">Ändra under Inställningar → Plattformar.</string>
+    <string name="show_handled">Visa åtgärdade (%1$d)</string>
+    <string name="hide_handled">Dölj åtgärdade</string>
+    <string name="swipe_hint">Svep åt höger för att markera som åtgärdad, åt vänster för att dölja alla sårbarheter från den leverantören.</string>
+
+    <!-- Detaljsidan -->
+    <string name="open_in_browser">Öppna i webbläsaren</string>
+    <string name="reason_kev">Utnyttjas aktivt – finns i CISA:s katalog över utnyttjade sårbarheter sedan %1$s</string>
+    <string name="reason_cvss">CVSS %1$s av 10</string>
+    <string name="reason_unscored">NVD har inte satt någon CVSS-poäng än</string>
+    <string name="reason_net">Kan angripas över nätet utan inloggning och utan att någon behöver klicka</string>
+    <string name="reason_ssvc">CISA: attacken kan automatiseras och ger full kontroll</string>
+    <string name="reason_rcetext">Enligt beskrivningen kan kod köras utan inloggning</string>
+    <string name="reason_ransomware">Används i ransomware-attacker</string>
+    <string name="reason_epss">EPSS %1$d %% – stor risk att den utnyttjas inom 30 dagar</string>
+    <string name="reason_certsecrit">CERT-SE varnar för den</string>
+    <string name="reason_certse_item">CERT-SE har gått ut med en varning om en kritisk sårbarhet</string>
+    <string name="reason_certse">Nämns av CERT-SE</string>
+    <string name="fact_platform">Plattform</string>
+    <string name="fact_cvss">CVSS</string>
+    <string name="fact_epss">EPSS</string>
+    <string name="fact_epss_value">%1$s %% (högre än %2$d %% av alla)</string>
+    <string name="fact_in_kev">I KEV sedan</string>
+    <string name="fact_deadline">CISA:s tidsfrist</string>
+    <string name="fact_published">Publicerad</string>
+    <string name="fact_vector">Vektor</string>
+    <string name="due_passed">%1$s (passerat)</string>
+    <string name="due_today">%1$s (i dag)</string>
+    <plurals name="due_in">
+        <item quantity="one">%2$s (om 1 dag)</item>
+        <item quantity="other">%2$s (om %1$d dagar)</item>
+    </plurals>
+    <string name="what_to_do">Vad CISA säger att man ska göra</string>
+    <string name="description">Beskrivning</string>
+    <string name="read_more">Läs mer</string>
+    <string name="link_nvd">NVD (NIST)</string>
+    <string name="link_kev">CISA:s KEV-katalog</string>
+
+    <!-- Plattformar -->
+    <string name="platform_windows">Windows</string>
+    <string name="platform_linux">Linux</string>
+    <string name="platform_virt">Hypervisor</string>
+    <string name="platformlong_windows">Windows Server och Microsofts serverprogram</string>
+    <string name="platformlong_linux">Linux (kärnan och distributioner)</string>
+    <string name="platformlong_apps">Serverprogram på Windows eller Linux</string>
+    <string name="platformlong_virt">Hypervisorer (VMware ESXi, vCenter, Proxmox)</string>
+    <string name="platformlong_device">Nätverksutrustning och apparater</string>
+    <string name="platformlong_client">Datorer och mobiler</string>
+    <string name="platformhelp_windows">Windows, Exchange, SharePoint, SQL Server, IIS</string>
+    <string name="platformhelp_linux">Linuxkärnan och paket i Red Hat, Debian, Ubuntu, SUSE med flera</string>
+    <string name="platformhelp_apps">Webbservrar, databaser, PHP, Java, GitLab, Atlassian, WordPress och andra program man installerar på en server</string>
+    <string name="platformhelp_virt">Det som era Windows- och Linuxservrar körs på</string>
+    <string name="platformhelp_device">Cisco, Fortinet, Palo Alto, Citrix NetScaler, Ivanti Connect Secure, SonicWall, Synology och andra brandväggar, VPN-boxar, routrar och NAS</string>
+    <string name="platformhelp_client">Apple, Android, Chrome, Firefox, Microsoft Office</string>
+
+    <!-- Inställningar -->
+    <string name="what_counts">Vad som räknas som kritiskt</string>
+    <string name="level_strict">Strikt</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_broad">Bred</string>
+    <string name="recommended">(rekommenderas)</string>
+    <string name="help_strict" formatted="false">Bara sårbarheter som utnyttjas aktivt, har CVSS 9 eller högre och kan angripas över nätet utan inloggning, och där CISA inte bedömt att attacken är svår att automatisera. Nya sårbarheter utanför katalogen kräver EPSS på minst 70 %. Ungefär två i veckan.</string>
+    <string name="help_normal" formatted="false">Sårbarheter som utnyttjas aktivt, har CVSS 9 eller högre och kan angripas över nätet utan inloggning, och dessutom utnyttjade som används för ransomware eller som CERT-SE varnar för. Nya sårbarheter kräver CVSS 9+ och EPSS på minst 40 %. Två eller tre i veckan.</string>
+    <string name="help_broad" formatted="false">Allt som utnyttjas aktivt med CVSS 8 eller högre, eller 7 och högre om det nås över nätet utan inloggning. Nya sårbarheter kräver CVSS 9+ och EPSS på minst 20 %. Flera i veckan.</string>
+    <string name="platforms">Plattformar</string>
+    <string name="platforms_help">Bara sårbarheter i det du slår på här visas och ger notiser. Plattformen läses från NVD:s lista över drabbade produkter (CPE), eller från leverantörens och produktens namn.</string>
+    <string name="time_span">Tidsperiod</string>
+    <string name="last_days">Senaste %1$d dagarna</string>
+    <string name="check_often">Leta efter nya sårbarheter</string>
+    <string name="check_never">Bara när appen öppnas</string>
+    <string name="check_1h">Varje timme</string>
+    <string name="check_3h">Var 3:e timme</string>
+    <string name="check_6h">Var 6:e timme</string>
+    <string name="check_help">Android kör kontrollen i bakgrunden, även när appen är stängd. Om telefonen begränsar appar i bakgrunden: ställ in batterianvändningen för PatchNow på \"Obegränsad\".</string>
+    <string name="notifications">Notiser</string>
+    <string name="notify_on">Notis när något nytt blir kritiskt</string>
+    <string name="quiet_on">Tyst på natten (22:00–07:00), notis vid första kontrollen efter 07:00 i stället</string>
+    <string name="test_notification">Skicka en testnotis</string>
+    <string name="notifications_off">Notiser är avstängda för PatchNow i Android.</string>
+    <string name="open_notification_settings">Öppna inställningar</string>
+    <string name="hidden_vendors">Dolda leverantörer</string>
+    <string name="hidden_vendors_empty">Svep åt vänster på en sårbarhet för att dölja en leverantör ni inte använder.</string>
+    <string name="show_again">Visa igen</string>
+    <string name="theme">Tema</string>
+    <string name="theme_auto">Automatiskt</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+    <string name="language">Språk</string>
+    <string name="language_help">PatchNow följer telefonens språk (svenska eller engelska). Du kan välja ett annat språk för appen i Androids inställningar.</string>
+    <string name="language_open">Välj språk</string>
+    <string name="about">Om</string>
+    <string name="about_text">PatchNow visar sårbarheter som utnyttjas eller snart kommer att utnyttjas, så att du slipper bruset och kan patcha det viktigaste först.</string>
+    <string name="sources">Källor: CISA:s katalog Known Exploited Vulnerabilities, NVD (NIST), EPSS från FIRST (first.org/epss) och CERT-SE. PatchNow har ingen koppling till någon av dem.</string>
+    <string name="disclaimer">Bedömningen är ett stöd för att prioritera, ingen garanti. Läs alltid leverantörens egen information.</string>
+    <string name="version_line">Version %1$s · © 2026 Johan Finn · GPLv3</string>
+
+    <!-- Notiser -->
+    <string name="channel_critical">Kritiska sårbarheter</string>
+    <string name="channel_critical_desc">Nya sårbarheter som behöver åtgärdas nu</string>
+    <plurals name="notify_many">
+        <item quantity="one">1 ny kritisk sårbarhet</item>
+        <item quantity="other">%d nya kritiska sårbarheter</item>
+    </plurals>
+    <string name="notify_test_title">PatchNow-test</string>
+    <string name="notify_test_text">Notiserna fungerar.</string>
+</resources>

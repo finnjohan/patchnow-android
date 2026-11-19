@@ -1,0 +1,18 @@
+PatchNow cuts through the flood of new CVEs and shows only the vulnerabilities that need action now: the ones that are actively exploited and critical, on the platforms you run.
+
+<ul>
+<li>Combines the CISA Known Exploited Vulnerabilities catalog, the NVD (CVSS and CISA's SSVC assessment), EPSS from FIRST and warnings from CERT-SE</li>
+<li>"Act now" list: actively exploited, CVSS 9 or higher and reachable over the network without login, plus ransomware-related and CERT-SE warnings</li>
+<li>Three levels: Strict, Normal and Broad</li>
+<li>Platform filter: Windows Server, Linux, server software and hypervisors by default. Network devices and desktop/mobile can be turned on</li>
+<li>Notification when something new becomes critical, with quiet hours at night</li>
+<li>Checks in the background every 1, 3 or 6 hours, also when the app is closed</li>
+<li>Shows why each vulnerability is critical, CISA's deadline and required action, with links to NVD, CISA and CERT-SE</li>
+<li>Swipe right to mark as handled, swipe left to hide a vendor you don't use</li>
+<li>Works offline with the last saved data. No account, no tracking</li>
+<li>English and Swedish, light, dark or automatic theme</li>
+</ul>
+
+The assessment is a help for prioritising, not a guarantee. Always check the vendor's advisory.
+
+This product uses data from the NVD API but is not endorsed or certified by the NVD. PatchNow is not affiliated with CISA, NIST, FIRST or CERT-SE.

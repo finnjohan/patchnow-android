@@ -1,0 +1,1 @@
+First Android version: actively exploited and critical vulnerabilities from CISA KEV, NVD, EPSS and CERT-SE, platform filter, notifications with quiet hours and background check.

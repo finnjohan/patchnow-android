@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">PatchNow</string>
+
+    <!-- Listan -->
+    <string name="settings">Settings</string>
+    <string name="refresh">Refresh</string>
+    <string name="back">Back</string>
+    <string name="checking">Checking…</string>
+    <string name="no_data">No data yet</string>
+    <string name="nothing_critical">Nothing critical right now</string>
+    <plurals name="to_act_on">
+        <item quantity="one">1 vulnerability to act on now</item>
+        <item quantity="other">%d vulnerabilities to act on now</item>
+    </plurals>
+    <plurals name="new_recent">
+        <item quantity="one">1 new in the last 48 hours</item>
+        <item quantity="other">%d new in the last 48 hours</item>
+    </plurals>
+    <string name="checked_at">Checked %1$s</string>
+    <string name="level_line">Level: %1$s · last %2$d days</string>
+    <string name="error_offline">No connection. Showing what was saved %1$s.</string>
+    <string name="error_limit">%1$s is busy right now (rate limit). Trying again later.</string>
+    <string name="error_partial">Could not reach %1$s. The assessment may be incomplete.</string>
+    <string name="section_critical">Act now</string>
+    <string name="section_watch">Keep an eye on</string>
+    <string name="section_handled">Handled</string>
+    <string name="chip_exploited">Exploited</string>
+    <string name="chip_ransomware">Ransomware</string>
+    <string name="chip_new">NEW</string>
+    <string name="mark_handled">Mark as handled</string>
+    <string name="not_handled">Not handled</string>
+    <string name="hide_vendor">Hide %1$s</string>
+    <string name="undo">Undo</string>
+    <string name="vendor_hidden">%1$s is hidden. Show it again under Settings.</string>
+    <string name="empty_period">No actively exploited or critical vulnerabilities in this period.</string>
+    <plurals name="hidden_by_platform">
+        <item quantity="one">1 critical vulnerability in platforms you don\'t watch is hidden.</item>
+        <item quantity="other">%d critical vulnerabilities in platforms you don\'t watch are hidden.</item>
+    </plurals>
+    <string name="change_platforms">Change under Settings → Platforms.</string>
+    <string name="show_handled">Show handled (%1$d)</string>
+    <string name="hide_handled">Hide handled</string>
+    <string name="swipe_hint">Swipe right to mark as handled, left to hide all vulnerabilities from that vendor.</string>
+
+    <!-- Detaljsidan -->
+    <string name="open_in_browser">Open in browser</string>
+    <string name="reason_kev">Actively exploited – in CISA\'s catalog of known exploited vulnerabilities since %1$s</string>
+    <string name="reason_cvss">CVSS %1$s of 10</string>
+    <string name="reason_unscored">No CVSS score from NVD yet</string>
+    <string name="reason_net">Can be attacked over the network without login or user interaction</string>
+    <string name="reason_ssvc">CISA: exploitation can be automated and gives full control</string>
+    <string name="reason_rcetext">The description says code can be run without logging in</string>
+    <string name="reason_ransomware">Used in ransomware campaigns</string>
+    <string name="reason_epss">EPSS %1$d %% – high probability of exploitation in the next 30 days</string>
+    <string name="reason_certsecrit">CERT-SE warns about it</string>
+    <string name="reason_certse_item">CERT-SE has published a warning about a critical vulnerability</string>
+    <string name="reason_certse">Mentioned by CERT-SE</string>
+    <string name="fact_platform">Platform</string>
+    <string name="fact_cvss">CVSS</string>
+    <string name="fact_epss">EPSS</string>
+    <string name="fact_epss_value">%1$s %% (higher than %2$d %% of all)</string>
+    <string name="fact_in_kev">In KEV since</string>
+    <string name="fact_deadline">CISA deadline</string>
+    <string name="fact_published">Published</string>
+    <string name="fact_vector">Vector</string>
+    <string name="due_passed">%1$s (passed)</string>
+    <string name="due_today">%1$s (today)</string>
+    <plurals name="due_in">
+        <item quantity="one">%2$s (in 1 day)</item>
+        <item quantity="other">%2$s (in %1$d days)</item>
+    </plurals>
+    <string name="what_to_do">What CISA says to do</string>
+    <string name="description">Description</string>
+    <string name="read_more">Read more</string>
+    <string name="link_nvd">NVD (NIST)</string>
+    <string name="link_kev">CISA KEV catalog</string>
+
+    <!-- Plattformar -->
+    <string name="platform_windows">Windows</string>
+    <string name="platform_linux">Linux</string>
+    <string name="platform_virt">Hypervisor</string>
+    <string name="platformlong_windows">Windows Server and Microsoft server software</string>
+    <string name="platformlong_linux">Linux (kernel and distributions)</string>
+    <string name="platformlong_apps">Server software on Windows or Linux</string>
+    <string name="platformlong_virt">Hypervisors (VMware ESXi, vCenter, Proxmox)</string>
+    <string name="platformlong_device">Network devices and appliances</string>
+    <string name="platformlong_client">Desktop and mobile</string>
+    <string name="platformhelp_windows">Windows, Exchange, SharePoint, SQL Server, IIS</string>
+    <string name="platformhelp_linux">The Linux kernel, and packages in Red Hat, Debian, Ubuntu, SUSE and others</string>
+    <string name="platformhelp_apps">Web servers, databases, PHP, Java, GitLab, Atlassian, WordPress and other programs you install on a server</string>
+    <string name="platformhelp_virt">What your Windows and Linux servers run on</string>
+    <string name="platformhelp_device">Cisco, Fortinet, Palo Alto, Citrix NetScaler, Ivanti Connect Secure, SonicWall, Synology and other firewalls, VPN boxes, routers and NAS</string>
+    <string name="platformhelp_client">Apple, Android, Chrome, Firefox, Microsoft Office</string>
+
+    <!-- Inställningar -->
+    <string name="what_counts">What counts as critical</string>
+    <string name="level_strict">Strict</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_broad">Broad</string>
+    <string name="recommended">(recommended)</string>
+    <string name="help_strict" formatted="false">Only actively exploited vulnerabilities with CVSS 9 or higher that can be attacked over the network without login, where CISA has not said the attack is hard to automate. New vulnerabilities outside the catalog need an EPSS of at least 70 %. About two a week.</string>
+    <string name="help_normal" formatted="false">Actively exploited vulnerabilities with CVSS 9 or higher that can be attacked over the network without login, plus exploited ones used for ransomware or flagged by CERT-SE. New vulnerabilities need CVSS 9+ and an EPSS of at least 40 %. Two or three a week.</string>
+    <string name="help_broad" formatted="false">Everything actively exploited with CVSS 8 or higher, or 7 and higher if reachable over the network without login. New vulnerabilities need CVSS 9+ and an EPSS of at least 20 %. Several a week.</string>
+    <string name="platforms">Platforms</string>
+    <string name="platforms_help">Only vulnerabilities in what you turn on here are shown and notified. The platform is read from the NVD\'s list of affected products (CPE), or from the vendor and product name.</string>
+    <string name="time_span">Time span</string>
+    <string name="last_days">Last %1$d days</string>
+    <string name="check_often">Check for new vulnerabilities</string>
+    <string name="check_never">Only when the app is opened</string>
+    <string name="check_1h">Every hour</string>
+    <string name="check_3h">Every 3 hours</string>
+    <string name="check_6h">Every 6 hours</string>
+    <string name="check_help">Android runs the check in the background, also when the app is closed. If your phone limits background apps, set PatchNow to \"Unrestricted\" battery use.</string>
+    <string name="notifications">Notifications</string>
+    <string name="notify_on">Notify when something new becomes critical</string>
+    <string name="quiet_on">Quiet at night (22:00–07:00), notify at the first check after 07:00 instead</string>
+    <string name="test_notification">Send a test notification</string>
+    <string name="notifications_off">Notifications are turned off for PatchNow in Android.</string>
+    <string name="open_notification_settings">Open settings</string>
+    <string name="hidden_vendors">Hidden vendors</string>
+    <string name="hidden_vendors_empty">Swipe left on a vulnerability to hide a vendor you don\'t use.</string>
+    <string name="show_again">Show again</string>
+    <string name="theme">Theme</string>
+    <string name="theme_auto">Automatic</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="language">Language</string>
+    <string name="language_help">PatchNow follows the phone\'s language (English or Swedish). You can choose another language for this app in Android settings.</string>
+    <string name="language_open">Choose language</string>
+    <string name="about">About</string>
+    <string name="about_text">PatchNow shows vulnerabilities that are being exploited or are about to be, so that you can skip the noise and patch what matters first.</string>
+    <string name="sources">Sources: CISA Known Exploited Vulnerabilities catalog, the NVD (NIST), EPSS from FIRST (first.org/epss) and CERT-SE. PatchNow is not affiliated with any of them.</string>
+    <string name="nvd_notice" translatable="false">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>
+    <string name="disclaimer">The assessment is a help for prioritising, not a guarantee. Always check the vendor\'s advisory.</string>
+    <string name="version_line">Version %1$s · © 2026 Johan Finn · GPLv3</string>
+
+    <!-- Notiser -->
+    <string name="channel_critical">Critical vulnerabilities</string>
+    <string name="channel_critical_desc">New vulnerabilities that need action now</string>
+    <plurals name="notify_many">
+        <item quantity="one">1 new critical vulnerability</item>
+        <item quantity="other">%d new critical vulnerabilities</item>
+    </plurals>
+    <string name="notify_test_title">PatchNow test</string>
+    <string name="notify_test_text">Notifications work.</string>
+</resources>

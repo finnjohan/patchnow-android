@@ -1,0 +1,15 @@
+PatchNow visar bara de sårbarheter som behöver åtgärdas nu: de som utnyttjas aktivt och är kritiska, på de plattformar du har hand om.
+
+<ul>
+<li>Hämtar CISA:s katalog över utnyttjade sårbarheter (KEV), NVD (CVSS och CISA:s SSVC-bedömning), EPSS från FIRST och varningar från CERT-SE</li>
+<li>Listan "Åtgärda nu": utnyttjas aktivt, CVSS 9 eller högre och kan angripas över nätet utan inloggning, samt ransomware och CERT-SE-varningar</li>
+<li>Tre nivåer: Strikt, Normal och Bred</li>
+<li>Plattformsfilter: Windows Server, Linux, serverprogram och hypervisorer som standard. Nätverksutrustning och datorer/mobiler går att slå på</li>
+<li>Notis när något nytt blir kritiskt, med tyst tid på natten</li>
+<li>Kollar i bakgrunden varje timme, var 3:e eller var 6:e timme, även när appen är stängd</li>
+<li>Svep åt höger för att markera som åtgärdad, åt vänster för att dölja en leverantör</li>
+<li>Fungerar utan nät med senast sparade data. Inget konto, ingen spårning</li>
+<li>Svenska och engelska, ljust, mörkt eller automatiskt tema</li>
+</ul>
+
+Bedömningen är ett stöd för att prioritera, ingen garanti. Läs alltid leverantörens egen information.

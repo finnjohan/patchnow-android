@@ -1,0 +1,1 @@
+Första Android-versionen: aktivt utnyttjade och kritiska sårbarheter från CISA KEV, NVD, EPSS och CERT-SE, plattformsfilter, notiser med tyst tid och bakgrundskoll.

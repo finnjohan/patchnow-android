@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Testdata: titlar, länkar och datum från CERT-SE:s Atom-flöde 2026-11-19. Texterna är förkortade. -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>CERT-SE</title>
+  <link href="https://www.cert.se/"/>
+  <updated>2026-11-18T14:20:00+01:00</updated>
+  <entry>
+    <title>Kritisk sårbarhet i Oracle Java</title>
+    <link href="https://www.cert.se/2026/11/kritisk-sarbarhet-i-oracle-java.html"/>
+    <published>2026-11-18T14:20:00+01:00</published>
+    <updated>2026-11-18T14:20:00+01:00</updated>
+    <summary>Oracle har publicerat en säkerhetsuppdatering för Java.</summary>
+    <content type="html">&lt;p&gt;Sårbarheten har tilldelats CVE-2026-114938.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Uppmaning till ökad vaksamhet efter flera fall av nätfiske</title>
+    <link href="https://www.cert.se/2026/11/uppmanar-till-okad-vaksamhet-natfiske.html"/>
+    <published>2026-11-17T10:00:00+01:00</published>
+    <summary>CERT-SE har fått in flera rapporter om nätfiske.</summary>
+  </entry>
+  <entry>
+    <title>NCSC – CERT-SE veckobrev v.46</title>
+    <link href="https://www.cert.se/2026/11/ncsc-cert-se-veckobrev-v46.html"/>
+    <published>2026-11-13T11:00:00+01:00</published>
+    <summary>Veckobrev.</summary>
+  </entry>
+  <entry>
+    <title>Patchtisdag november 2026</title>
+    <link href="https://www.cert.se/2026/11/patchtisdag-november-2026.html"/>
+    <published>2026-11-11T09:20:00+01:00</published>
+    <summary>Microsofts månatliga säkerhetsuppdateringar.</summary>
+  </entry>
+  <entry>
+    <title>NCSC – CERT-SE veckobrev v.45</title>
+    <link href="https://www.cert.se/2026/11/ncsc-cert-se-veckobrev-v45.html"/>
+    <published>2026-11-06T12:00:00+01:00</published>
+    <summary>Veckobrev.</summary>
+    <content type="html">&lt;p&gt;Red Hat: sårbarhet i Linuxkärnans TCP-stack, CVE-2026-98432.&lt;/p&gt;</content>
+  </entry>
+</feed>
