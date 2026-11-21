@@ -17,7 +17,8 @@ data class Settings(
     val quietOn: Boolean = true,
     val theme: String = "auto",
     val platforms: Map<String, Boolean> = DEFAULT_PLATFORMS,
-    val muted: Set<String> = emptySet()
+    val muted: Set<String> = emptySet(),
+    val software: Set<String> = emptySet()    // program du kör (Logic.SOFTWARE)
 )
 
 // Inställningar, sedda och åtgärdade poster samt metadata om hämtningarna.
@@ -36,7 +37,8 @@ class Prefs(context: Context, name: String) {
             quietOn = p.getBoolean("quietOn", true),
             theme = p.getString("theme", "auto") ?: "auto",
             platforms = plat,
-            muted = p.getStringSet("muted", emptySet())?.toSet() ?: emptySet()
+            muted = p.getStringSet("muted", emptySet())?.toSet() ?: emptySet(),
+            software = p.getStringSet("software", emptySet())?.toSet() ?: emptySet()
         )
     }
 
@@ -52,6 +54,7 @@ class Prefs(context: Context, name: String) {
             .putString("theme", s.theme)
             .putString("platforms", plat.toString())
             .putStringSet("muted", s.muted)
+            .putStringSet("software", s.software)
             .apply()
     }
 

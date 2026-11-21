@@ -1,0 +1,1 @@
+New setting "Software you run": PHP, Drupal, CakePHP, nginx, Java and Apache HTTP Server. Critical vulnerabilities (CVSS 9+) in the programs you turn on are always shown and notified, even before they are exploited.

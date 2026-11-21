@@ -164,4 +164,63 @@ class LogicTest {
         val e = mapOf("CVE-1" to Epss(0.5, 0.9))
         assertEquals(e, epssFromJson(epssToJson(e)))
     }
+    // ---- Program du kör ------------------------------------------------------
+
+    private val swAll = SOFTWARE.toSet()
+
+    private fun recentList(): List<Item> =
+        merge(emptyList(), parseNvd(fixture("nvd-recent.json")), emptyMap(), emptyList(), now - 10 * DAY_MS, now - 30 * DAY_MS)
+
+    private fun named(vendor: String, product: String, cpes: List<String> = emptyList(), desc: String = "",
+                      sw: List<String> = emptyList()): Item =
+        Item("cve", "N", vendor, product, "", desc, null, -1.0, "", "", emptyMap(), cpes, -1.0, -1.0, "",
+            ArrayList(), emptyList(), "", 0, sw)
+
+    @Test fun softwareMatching() {
+        val r = recentList().associateBy { it.id }
+        assertTrue(r.getValue("CVE-2024-38476").cpes.contains("a:apache:http_server"))
+        assertEquals("apache", softwareOf(r.getValue("CVE-2024-38476"), swAll))
+        assertEquals("nginx", softwareOf(r.getValue("CVE-2025-1974"), swAll))      // ingen CPE, beskrivningen
+        assertEquals("php", softwareOf(r.getValue("CVE-2024-8926"), swAll))
+        assertEquals("", softwareOf(r.getValue("CVE-2026-990001"), swAll))         // webbapp skriven i PHP
+        assertEquals("", softwareOf(r.getValue("CVE-2024-38476"), setOf("php")))
+        assertEquals("", softwareOf(r.getValue("CVE-2024-38476"), emptySet()))
+        assertEquals("java", softwareOf(named("Oracle", "Java SE"), setOf("java")))
+        assertEquals("apache", softwareOf(named("Apache", "HTTP Server"), setOf("apache")))
+        assertEquals("drupal", softwareOf(named("Drupal", "Core"), setOf("drupal")))
+        assertEquals("", softwareOf(named("PHPFusion", "PHP-Fusion"), setOf("php")))
+        assertEquals("", softwareOf(named("phpMyAdmin", "phpMyAdmin"), setOf("php")))
+        assertEquals("", softwareOf(named("Apache", "Tomcat"), setOf("apache")))
+        assertEquals("drupal", softwareOf(named("", "", listOf("a:webform_project:webform"), sw = listOf("drupal")), setOf("drupal")))
+        assertEquals("java", softwareOf(named("", "", desc = "Vulnerability in the Oracle Java SE product of Oracle Java SE (component: Hotspot)."), setOf("java")))
+        assertEquals("cakephp", softwareOf(named("", "", desc = "Deserialization in CakePHP 5.0 allows code execution."), setOf("cakephp")))
+        assertEquals("", softwareOf(named("", "", listOf("a:foo:bar"), "Foo when deployed behind nginx"), setOf("nginx")))
+    }
+
+    @Test fun softwareAssessment() {
+        assertTrue(assess(recentList(), "strict", emptySet(), emptySet(), all).items.isEmpty())
+        val withSw = assess(recentList(), "strict", emptySet(), emptySet(), all, setOf("apache", "nginx", "php")).items
+        assertEquals(listOf("CVE-2024-38476", "CVE-2025-1974"), withSw.filter { it.tier == 2 }.map { it.id }.sorted())
+        assertFalse(withSw.any { it.id == "CVE-2024-8926" })                       // CVSS 8,8
+        assertTrue(withSw.all { it.reasons.contains("software") && it.software.isNotEmpty() })
+        val apache = withSw.first { it.id == "CVE-2024-38476" }
+        assertEquals("Apache HTTP Server", title(apache))
+        // Visas trots dold leverantör och avstängd plattform
+        val off = assess(recentList(), "strict", setOf("apache"), emptySet(), mapOf("apps" to false), setOf("apache")).items
+        assertTrue(off.any { it.id == "CVE-2024-38476" })
+        // KEV i PHP: bevaka -> kritisk när PHP är valt
+        val kevPhp = Item("cve", "K", "PHP Group", "PHP", "", "", KevInfo("2026-11-18", "", false, ""), 7.5,
+            "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H", "3.1", emptyMap(), emptyList(), -1.0, -1.0, "",
+            ArrayList(), emptyList(), "", 0)
+        assertEquals(1, evaluate(kevPhp, "strict").tier)
+        assertEquals(2, evaluate(kevPhp, "strict", softwareOf(kevPhp, setOf("php"))).tier)
+        // CERT-SE om valt program blir kritisk även på strikt
+        val cs = Item("certse", "L", "CERT-SE", "", "Kritisk sårbarhet i Apache HTTP Server", "", null, -1.0, "", "",
+            emptyMap(), emptyList(), -1.0, -1.0, "", mutableListOf(CertRef("x", "L", true)), emptyList(), "L", 0)
+        assertEquals(1, evaluate(cs, "strict").tier)
+        assertEquals(2, evaluate(cs, "strict", softwareOf(cs, setOf("apache"))).tier)
+        // Cachen behåller target_sw
+        val n = parseNvd(fixture("nvd-recent.json"))
+        assertEquals(n, nvdFromJson(nvdToJson(n)))
+    }
 }

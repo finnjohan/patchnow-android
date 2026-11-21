@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import io.github.finnjohan.patchnow.R
 import io.github.finnjohan.patchnow.data.UiState
 import io.github.finnjohan.patchnow.logic.Item
+import io.github.finnjohan.patchnow.logic.SOFTWARE_SHORT
 import io.github.finnjohan.patchnow.logic.title
 import kotlinx.coroutines.launch
 
@@ -270,6 +271,7 @@ private fun AlertRow(it: Item, onOpen: (String) -> Unit, onHandled: (String, Boo
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         val grey = MaterialTheme.colorScheme.onSurfaceVariant
                         if (it.kind == "certse") Chip("CERT-SE", tint)
+                        if (it.software.isNotEmpty()) Chip(SOFTWARE_SHORT[it.software] ?: it.software, tint)
                         platformShort(it.platform)?.let { p -> Chip(p, grey) }
                         if (it.cvss >= 0) Chip("CVSS " + cvssText(it.cvss), if (it.cvss >= 9) tint else grey)
                         if (it.kev != null) Chip(stringResource(R.string.chip_exploited), tint)

@@ -222,7 +222,7 @@ class Repository(private val context: Context, val demo: Boolean) {
         val t = now()
         val list = merge(kevInWindow(s), combinedNvd(s), epssMap, feedList, t - RECENT_DAYS * DAY_MS, t - s.windowDays * DAY_MS)
         val handled = prefs.handled()
-        val res = assess(list, s.level, s.muted, handled.keys, s.platforms)
+        val res = assess(list, s.level, s.muted, handled.keys, s.platforms, s.software)
 
         val seen = prefs.seen()
         val crit = res.items.filter { it.tier == 2 && !it.handled }
@@ -284,10 +284,11 @@ class Repository(private val context: Context, val demo: Boolean) {
     private fun loadDemo() {
         val t = now()
         prefs.clearAll()
-        prefs.save(Settings(quietOn = false))
+        // Demo: Apache och nginx valda, så att "Program du kör" syns i listan
+        prefs.save(Settings(quietOn = false, software = setOf("apache", "nginx")))
         kevList = parseKev(asset("kev.json"), dayKey(t - 90 * DAY_MS))
         nvdKev = parseNvd(asset("nvd-kev.json"))
-        nvdRecent = emptyMap()
+        nvdRecent = parseNvd(asset("nvd-recent.json"))
         epssMap = emptyMap()
         feedList = parseFeed(asset("certse.xml"))
         prefs.fetchedAt = t - 4 * 60_000
@@ -295,7 +296,7 @@ class Repository(private val context: Context, val demo: Boolean) {
         // Allt utom de två nyaste kritiska räknas som sett sedan tidigare, och den äldsta är åtgärdad
         val s = prefs.settings()
         val list = merge(kevInWindow(s), combinedNvd(s), epssMap, feedList, t - RECENT_DAYS * DAY_MS, t - s.windowDays * DAY_MS)
-        val crit = assess(list, s.level, emptySet(), emptySet(), s.platforms).items.filter { it.tier == 2 }
+        val crit = assess(list, s.level, emptySet(), emptySet(), s.platforms, s.software).items.filter { it.tier == 2 }
         val seen = HashMap<String, Long>()
         crit.drop(2).forEach { seen[it.id] = t - 10 * DAY_MS }
         crit.take(2).forEach { seen[it.id] = t - 3 * 3_600_000 }

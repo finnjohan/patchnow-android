@@ -1,0 +1,1 @@
+Ny inställning "Program du kör": PHP, Drupal, CakePHP, nginx, Java och Apache HTTP Server. Kritiska sårbarheter (CVSS 9+) i programmen du slår på visas alltid och ger notis, även innan de utnyttjas.

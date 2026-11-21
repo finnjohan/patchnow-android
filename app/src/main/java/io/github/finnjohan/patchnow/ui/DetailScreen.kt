@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.finnjohan.patchnow.R
 import io.github.finnjohan.patchnow.logic.Item
+import io.github.finnjohan.patchnow.logic.SOFTWARE_NAMES
 import io.github.finnjohan.patchnow.logic.daysBetween
 import io.github.finnjohan.patchnow.logic.kevLink
 import io.github.finnjohan.patchnow.logic.nvdLink
@@ -137,6 +138,7 @@ private fun Verdict(item: Item) {
 
 @Composable
 private fun reasonText(item: Item, key: String): String = when (key) {
+    "software" -> stringResource(R.string.reason_software, SOFTWARE_NAMES[item.software] ?: item.software)
     "kev" -> stringResource(R.string.reason_kev, formatDay(parseDay(item.kev?.added ?: "")))
     "cvss" -> stringResource(R.string.reason_cvss, cvssText(item.cvss))
     "unscored" -> stringResource(R.string.reason_unscored)
@@ -154,6 +156,7 @@ private fun reasonText(item: Item, key: String): String = when (key) {
 private fun Facts(item: Item, now: Long) {
     Column {
         FactRow(stringResource(R.string.fact_platform), stringResource(platformLongRes(item.platform)))
+        if (item.software.isNotEmpty()) FactRow(stringResource(R.string.fact_software), SOFTWARE_NAMES[item.software] ?: item.software)
         if (item.cvss >= 0) FactRow(stringResource(R.string.fact_cvss),
             cvssText(item.cvss) + if (item.cvssVersion.isNotEmpty()) "  (v${item.cvssVersion})" else "")
         if (item.epss >= 0) FactRow(stringResource(R.string.fact_epss),

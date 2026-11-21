@@ -41,6 +41,8 @@ import io.github.finnjohan.patchnow.BuildConfig
 import io.github.finnjohan.patchnow.R
 import io.github.finnjohan.patchnow.data.Settings
 import io.github.finnjohan.patchnow.logic.PLATFORMS
+import io.github.finnjohan.patchnow.logic.SOFTWARE
+import io.github.finnjohan.patchnow.logic.SOFTWARE_NAMES
 import io.github.finnjohan.patchnow.work.Notifier
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,6 +89,15 @@ fun SettingsScreen(
             for (p in PLATFORMS) {
                 SwitchRow(stringResource(platformLongRes(p)), stringResource(platformHelpRes(p)), s.platforms[p] == true) { on ->
                     onChange { it.copy(platforms = it.platforms + (p to on)) }
+                }
+            }
+
+            // ---- Program du kör ------------------------------------------------
+            SectionTitle(stringResource(R.string.software))
+            SmallText(stringResource(R.string.software_help), modifier = Modifier.padding(horizontal = 16.dp))
+            for (k in SOFTWARE) {
+                SwitchRow(SOFTWARE_NAMES.getValue(k), null, k in s.software) { on ->
+                    onChange { it.copy(software = if (on) it.software + k else it.software - k) }
                 }
             }
 

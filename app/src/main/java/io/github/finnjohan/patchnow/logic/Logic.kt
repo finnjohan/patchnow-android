@@ -39,7 +39,8 @@ data class Kev(
 data class Nvd(
     val cvss: Double, val vector: String, val version: String, val desc: String, val published: String,
     val ssvc: Map<String, String>, val cpes: List<String>,
-    val kevAdded: String, val kevDue: String, val kevName: String, val kevAction: String
+    val kevAdded: String, val kevDue: String, val kevName: String, val kevAction: String,
+    val sw: List<String> = emptyList()   // CPE:ns target_sw, t.ex. "drupal" för Drupal-moduler
 )
 
 data class Epss(val epss: Double, val pct: Double)
@@ -72,12 +73,14 @@ class Item(
     val certse: MutableList<CertRef>,
     val cves: List<String>,
     val link: String,
-    val date: Long
+    val date: Long,
+    val sw: List<String> = emptyList()
 ) {
     var tier = 0                   // 2 = åtgärda nu, 1 = bevaka
     var reasons: List<String> = emptyList()
     var handled = false
     var platform = "apps"
+    var software = ""              // valt program som posten gäller, "" = inget
     var isNew = false
 }
 
@@ -198,6 +201,7 @@ fun parseNvd(text: String): Map<String, Nvd> {
             }
         }
         val cpes = ArrayList<String>()
+        val sw = ArrayList<String>()
         val confs = c.optJSONArray("configurations")
         if (confs != null) for (ci in 0 until confs.length()) {
             val nodes = confs.getJSONObject(ci).optJSONArray("nodes") ?: continue
@@ -210,6 +214,8 @@ fun parseNvd(text: String): Map<String, Nvd> {
                     if (parts.size < 5) continue
                     val key3 = parts[2] + ":" + parts[3] + ":" + parts[4]
                     if (key3 !in cpes && cpes.size < 60) cpes.add(key3)
+                    val tsw = if (parts.size > 10) parts[10] else ""
+                    if (tsw != "*" && tsw != "-" && tsw.isNotEmpty() && tsw !in sw && sw.size < 10) sw.add(tsw)
                 }
             }
         }
@@ -221,7 +227,7 @@ fun parseNvd(text: String): Map<String, Nvd> {
         }
         out[id] = Nvd(best?.score ?: -1.0, best?.vector ?: "", best?.version ?: "", desc, c.optString("published"),
             ssvc, cpes, c.optString("cisaExploitAdd"), c.optString("cisaActionDue"),
-            c.optString("cisaVulnerabilityName"), c.optString("cisaRequiredAction"))
+            c.optString("cisaVulnerabilityName"), c.optString("cisaRequiredAction"), sw)
     }
     return out
 }
@@ -372,7 +378,8 @@ fun merge(kev: List<Kev>, nvd: Map<String, Nvd>, epss: Map<String, Epss>, feed: 
         val it = Item("cve", id, vendor, product, if (name.isNotEmpty()) name else (n?.kevName ?: ""),
             if (n != null && n.desc.isNotEmpty()) n.desc else desc, k,
             n?.cvss ?: -1.0, n?.vector ?: "", n?.version ?: "", n?.ssvc ?: emptyMap(), n?.cpes ?: emptyList(),
-            e?.epss ?: -1.0, e?.pct ?: -1.0, n?.published ?: "", ArrayList(), emptyList(), nvdLink(id), date)
+            e?.epss ?: -1.0, e?.pct ?: -1.0, n?.published ?: "", ArrayList(), emptyList(), nvdLink(id), date,
+            n?.sw ?: emptyList())
         byId[id] = it
         list.add(it)
         return it
@@ -409,10 +416,65 @@ fun merge(kev: List<Kev>, nvd: Map<String, Nvd>, epss: Map<String, Epss>, feed: 
     return list
 }
 
+// ---- Program du kör ------------------------------------------------------------
+// Kritiska sårbarheter (CVSS 9+) i valda program visas alltid, även innan de utnyttjas.
+// Matchning: CPE (och target_sw) i första hand. Utan CPE: leverantör/produkt och beskrivning.
+
+val SOFTWARE = listOf("php", "drupal", "cakephp", "nginx", "java", "apache")
+val SOFTWARE_NAMES = mapOf("php" to "PHP", "drupal" to "Drupal", "cakephp" to "CakePHP", "nginx" to "nginx",
+    "java" to "Java (JDK/JRE)", "apache" to "Apache HTTP Server")
+val SOFTWARE_SHORT = mapOf("php" to "PHP", "drupal" to "Drupal", "cakephp" to "CakePHP", "nginx" to "nginx",
+    "java" to "Java", "apache" to "Apache httpd")
+
+private val SW_CPE = mapOf(
+    "php" to Regex("^a:php:php$"),
+    "drupal" to Regex("^a:drupal:"),
+    "cakephp" to Regex("^a:cakephp:cakephp"),
+    "nginx" to Regex("^a:(f5|nginx):nginx|^a:kubernetes:ingress[-_]nginx"),
+    "java" to Regex("^a:oracle:(jdk|jre|java_se|openjdk|graalvm)|^a:(openjdk:|eclipse:temurin|azul:zulu|bellsoft:liberica|amazon:corretto|ibm:(java|semeru)|redhat:(openjdk|build_of_openjdk)|microsoft:(openjdk|build_of_openjdk))"),
+    "apache" to Regex("^a:apache:http_server$")
+)
+private val SW_TARGET = mapOf("drupal" to Regex("^drupal"), "php" to Regex("^php$"))
+// Leverantör + produkt (KEV) och CERT-SE-rubriker, i gemener
+private val SW_NAME = mapOf(
+    "php" to Regex("(^|[^\\w-])php([^\\w-]|$)"),
+    "drupal" to Regex("\\bdrupal\\b"),
+    "cakephp" to Regex("\\bcakephp\\b"),
+    "nginx" to Regex("\\bnginx\\b"),
+    "java" to Regex("\\b(java se|java runtime|openjdk|jdk|jre)\\b|\\boracle java\\b"),
+    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b")
+)
+// Beskrivningen, i gemener (bara när NVD inte har listat produkterna än)
+private val SW_DESC = mapOf(
+    "php" to Regex("\\bphp (versions?|before|prior to|through) ?\\d|\\bin php \\d|\\bphp \\d+\\.\\d+(\\.\\d+)?\\b"),
+    "drupal" to Regex("\\bdrupal\\b"),
+    "cakephp" to Regex("\\bcakephp\\b"),
+    "nginx" to Regex("\\bnginx\\b"),
+    "java" to Regex("\\b(oracle java se|java se|openjdk|java runtime environment)\\b"),
+    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b")
+)
+
+// Vilket av de valda programmen posten gäller, eller "".
+fun softwareOf(it: Item, software: Set<String>): String {
+    if (software.isEmpty()) return ""
+    val names = (if (it.kind == "certse") it.name else it.vendor + " " + it.product).lowercase()
+    val desc = it.desc.lowercase()
+    for (k in SOFTWARE) {
+        if (k !in software) continue
+        if (it.cpes.any { c -> SW_CPE.getValue(k).containsMatchIn(c) }) return k
+        val t = SW_TARGET[k]
+        if (t != null && it.sw.any { s -> t.containsMatchIn(s) }) return k
+        if (names.isNotBlank() && SW_NAME.getValue(k).containsMatchIn(names)) return k
+        if (it.cpes.isEmpty() && SW_DESC.getValue(k).containsMatchIn(desc)) return k
+    }
+    return ""
+}
+
 class Evaluation(val tier: Int, val reasons: List<String>)
 
 // tier 2 = kritiskt (åtgärda nu), 1 = bevaka, 0 = visas inte. reasons = nycklar för översättning.
-fun evaluate(it: Item, level: String): Evaluation {
+// sw: nyckel från softwareOf ("" = inget valt program)
+fun evaluate(it: Item, level: String, sw: String = ""): Evaluation {
     val l = LEVELS[level] ?: LEVELS.getValue("normal")
     val r = ArrayList<String>()
     val net = remoteNoAuth(it.vector)
@@ -422,10 +484,12 @@ fun evaluate(it: Item, level: String): Evaluation {
     val certCrit = it.certse.any { c -> c.critical }
 
     if (it.kind == "certse") {
+        if (sw.isNotEmpty()) r.add("software")
         r.add("certse")
-        return Evaluation(if (level == "strict") 1 else 2, r)
+        return Evaluation(if (sw.isNotEmpty() || level != "strict") 2 else 1, r)
     }
 
+    if (sw.isNotEmpty()) r.add("software")
     if (it.kev != null) r.add("kev")
     r.add(if (scored) "cvss" else "unscored")
     if (net) r.add("net")
@@ -460,20 +524,26 @@ fun evaluate(it: Item, level: String): Evaluation {
             else -> 0
         }
     }
+    // Program du kör: utnyttjad, CVSS 9+ eller CERT-SE varnar = kritiskt
+    if (sw.isNotEmpty() && (it.kev != null || (scored && it.cvss >= 9.0) || (!scored && rceText) || certCrit)) tier = 2
     return Evaluation(tier, r)
 }
 
 // Bedömer, filtrerar bort tystade leverantörer och plattformar som inte bevakas, och sorterar:
 // åtgärdade sist, kritiska först, nyast först. hidden = kritiska som plattformsfiltret tog bort.
-fun assess(list: List<Item>, level: String, muted: Set<String>, handled: Set<String>, platforms: Map<String, Boolean>): Assessed {
+// software: valda program, som visas oavsett dolda leverantörer och plattformar.
+fun assess(list: List<Item>, level: String, muted: Set<String>, handled: Set<String>, platforms: Map<String, Boolean>,
+           software: Set<String> = emptySet()): Assessed {
     val out = ArrayList<Item>()
     var hidden = 0
     for (it in list) {
-        val ev = evaluate(it, level)
+        val sw = softwareOf(it, software)
+        val ev = evaluate(it, level, sw)
         if (ev.tier == 0) continue
-        if (it.kind == "cve" && muted.contains(it.vendor.lowercase())) continue
+        if (sw.isEmpty() && it.kind == "cve" && muted.contains(it.vendor.lowercase())) continue
         it.platform = platformOf(it)
-        val on = platforms[it.platform] ?: (DEFAULT_PLATFORMS[it.platform] ?: true)
+        it.software = sw
+        val on = sw.isNotEmpty() || (platforms[it.platform] ?: (DEFAULT_PLATFORMS[it.platform] ?: true))
         if (!on) {
             if (ev.tier == 2) hidden++
             continue
@@ -499,7 +569,11 @@ fun title(it: Item): String {
     if (it.kind == "certse") return it.name
     val v = it.vendor
     val p = it.product
-    if (v.isEmpty() && p.isEmpty()) return if (it.name.isNotEmpty()) it.name.removeSuffix(" Vulnerability") else it.id
+    if (v.isEmpty() && p.isEmpty()) return when {
+        it.name.isNotEmpty() -> it.name.removeSuffix(" Vulnerability")
+        it.software.isNotEmpty() -> SOFTWARE_NAMES[it.software] ?: it.id
+        else -> it.id
+    }
     if (p.isEmpty() || p.lowercase() == v.lowercase()) return if (v.isNotEmpty()) v else p
     // "Barracuda Networks" + "Barracuda Email Security Gateway" -> bara produkten
     val first = v.split(" ")[0].lowercase()
@@ -541,7 +615,8 @@ fun nvdToJson(map: Map<String, Nvd>): String {
         for ((k, v) in n.ssvc) s.put(k, v)
         o.put(id, JSONObject().put("cvss", n.cvss).put("vector", n.vector).put("version", n.version)
             .put("desc", n.desc).put("published", n.published).put("ssvc", s).put("cpes", JSONArray(n.cpes))
-            .put("kevAdded", n.kevAdded).put("kevDue", n.kevDue).put("kevName", n.kevName).put("kevAction", n.kevAction))
+            .put("kevAdded", n.kevAdded).put("kevDue", n.kevDue).put("kevName", n.kevName).put("kevAction", n.kevAction)
+            .put("sw", JSONArray(n.sw)))
     }
     return o.toString()
 }
@@ -555,9 +630,11 @@ fun nvdFromJson(text: String): Map<String, Nvd> {
         val ssvc = HashMap<String, String>()
         for (k in s.keys()) ssvc[k] = s.optString(k)
         val ca = n.optJSONArray("cpes") ?: JSONArray()
+        val sa = n.optJSONArray("sw") ?: JSONArray()
         out[id] = Nvd(n.optDouble("cvss", -1.0), n.optString("vector"), n.optString("version"), n.optString("desc"),
             n.optString("published"), ssvc, (0 until ca.length()).map { ca.getString(it) },
-            n.optString("kevAdded"), n.optString("kevDue"), n.optString("kevName"), n.optString("kevAction"))
+            n.optString("kevAdded"), n.optString("kevDue"), n.optString("kevName"), n.optString("kevAction"),
+            (0 until sa.length()).map { sa.getString(it) })
     }
     return out
 }

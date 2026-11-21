@@ -1,0 +1,600 @@
+{
+ "vulnerabilities": [
+  {
+   "cve": {
+    "id": "CVE-2024-38476",
+    "sourceIdentifier": "security@apache.org",
+    "published": "2026-11-18T14:15:08.000",
+    "lastModified": "2026-06-17T07:40:21.557",
+    "vulnStatus": "Modified",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "Vulnerability in core of Apache HTTP Server 2.4.59 and earlier are vulnerably to information disclosure, SSRF or local script execution via\u00a0backend applications whose response headers are malicious or exploitable.\n\nUsers are recommended to upgrade to version 2.4.60, which fixes this issue."
+     },
+     {
+      "lang": "es",
+      "value": "La vulnerabilidad en el n\u00facleo de Apache HTTP Server 2.4.59 y versiones anteriores es vulnerable a la divulgaci\u00f3n de informaci\u00f3n, SSRF o ejecuci\u00f3n de scripts locales a trav\u00e9s de aplicaciones backend cuyos encabezados de respuesta son maliciosos o explotables. Se recomienda a los usuarios actualizar a la versi\u00f3n 2.4.60, que soluciona este problema."
+     }
+    ],
+    "affected": [
+     {
+      "source": "security@apache.org",
+      "affectedData": [
+       {
+        "vendor": "Apache Software Foundation",
+        "product": "Apache HTTP Server",
+        "defaultStatus": "unaffected",
+        "versions": [
+         {
+          "version": "2.4.0",
+          "lessThanOrEqual": "2.4.59",
+          "versionType": "semver",
+          "status": "affected"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+      "affectedData": [
+       {
+        "vendor": "apache",
+        "product": "http_server",
+        "defaultStatus": "unknown",
+        "cpes": [
+         "cpe:2.3:a:apache:http_server:*:*:*:*:*:*:*:*"
+        ],
+        "versions": [
+         {
+          "version": "0",
+          "lessThanOrEqual": "2.4.59",
+          "versionType": "custom",
+          "status": "affected"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2024-10-29T03:55:12.524796Z",
+        "id": "CVE-2024-38476",
+        "options": [
+         {
+          "exploitation": "none"
+         },
+         {
+          "automatable": "yes"
+         },
+         {
+          "technicalImpact": "total"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "weaknesses": [
+     {
+      "source": "security@apache.org",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-829"
+       }
+      ]
+     },
+     {
+      "source": "nvd@nist.gov",
+      "type": "Primary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "NVD-CWE-noinfo"
+       }
+      ]
+     }
+    ],
+    "configurations": [
+     {
+      "nodes": [
+       {
+        "operator": "OR",
+        "negate": false,
+        "cpeMatch": [
+         {
+          "vulnerable": true,
+          "criteria": "cpe:2.3:a:apache:http_server:*:*:*:*:*:*:*:*",
+          "versionStartIncluding": "2.4.0",
+          "versionEndExcluding": "2.4.60",
+          "matchCriteriaId": "13126636-FD76-4E3E-B949-14A5082DE02A"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "nodes": [
+       {
+        "operator": "OR",
+        "negate": false,
+        "cpeMatch": [
+         {
+          "vulnerable": true,
+          "criteria": "cpe:2.3:o:netapp:clustered_data_ontap:9.0:*:*:*:*:*:*:*",
+          "matchCriteriaId": "C3ED302E-F464-40DE-A976-FD518E42D95D"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "https://httpd.apache.org/security/vulnerabilities_24.html",
+      "source": "security@apache.org",
+      "tags": [
+       "Vendor Advisory"
+      ]
+     },
+     {
+      "url": "https://security.netapp.com/advisory/ntap-20240712-0001/",
+      "source": "security@apache.org",
+      "tags": [
+       "Third Party Advisory"
+      ]
+     },
+     {
+      "url": "http://seclists.org/fulldisclosure/2024/Oct/11",
+      "source": "af854a3a-2127-422b-91ae-364da2661108"
+     },
+     {
+      "url": "http://www.openwall.com/lists/oss-security/2024/07/01/9",
+      "source": "af854a3a-2127-422b-91ae-364da2661108",
+      "tags": [
+       "Mailing List",
+       "Third Party Advisory"
+      ]
+     },
+     {
+      "url": "https://httpd.apache.org/security/vulnerabilities_24.html",
+      "source": "af854a3a-2127-422b-91ae-364da2661108",
+      "tags": [
+       "Vendor Advisory"
+      ]
+     },
+     {
+      "url": "https://security.netapp.com/advisory/ntap-20240712-0001/",
+      "source": "af854a3a-2127-422b-91ae-364da2661108",
+      "tags": [
+       "Third Party Advisory"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "cve": {
+    "id": "CVE-2025-1974",
+    "sourceIdentifier": "jordan@liggitt.net",
+    "published": "2026-11-17T22:15:13.000",
+    "lastModified": "2026-06-17T08:40:27.847",
+    "vulnStatus": "Deferred",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "A security issue was discovered in Kubernetes where under certain conditions, an unauthenticated attacker with access to the pod network can achieve arbitrary code execution in the context of the ingress-nginx controller. This can lead to disclosure of Secrets accessible to the controller. (Note that in the default installation, the controller can access all Secrets cluster-wide.)"
+     },
+     {
+      "lang": "es",
+      "value": "Se descubri\u00f3 un problema de seguridad en Kubernetes donde, bajo ciertas condiciones, un atacante no autenticado con acceso a la red de pods puede ejecutar c\u00f3digo arbitrario en el contexto del controlador ingress-nginx. Esto puede provocar la divulgaci\u00f3n de secretos accesibles al controlador. (Tenga en cuenta que, en la instalaci\u00f3n predeterminada, el controlador puede acceder a todos los secretos del cl\u00faster)."
+     }
+    ],
+    "affected": [
+     {
+      "source": "jordan@liggitt.net",
+      "affectedData": [
+       {
+        "vendor": "kubernetes",
+        "product": "ingress-nginx",
+        "defaultStatus": "unaffected",
+        "modules": [
+         "Validating Admission Controller"
+        ],
+        "repo": "https://github.com/kubernetes/ingress-nginx",
+        "versions": [
+         {
+          "version": "0",
+          "lessThanOrEqual": "1.11.4",
+          "versionType": "semver",
+          "status": "affected"
+         },
+         {
+          "version": "1.12.0",
+          "status": "affected"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "jordan@liggitt.net",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2025-03-27T03:55:20.340497Z",
+        "id": "CVE-2025-1974",
+        "options": [
+         {
+          "exploitation": "poc"
+         },
+         {
+          "automatable": "yes"
+         },
+         {
+          "technicalImpact": "total"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "weaknesses": [
+     {
+      "source": "jordan@liggitt.net",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-653"
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "https://https://github.com/kubernetes/kubernetes/issues/131009",
+      "source": "jordan@liggitt.net"
+     },
+     {
+      "url": "https://github.com/B1ack4sh/Blackash-CVE-2025-1974",
+      "source": "af854a3a-2127-422b-91ae-364da2661108"
+     },
+     {
+      "url": "https://security.netapp.com/advisory/ntap-20250328-0008/",
+      "source": "af854a3a-2127-422b-91ae-364da2661108"
+     },
+     {
+      "url": "https://www.exploit-db.com/exploits/52475",
+      "source": "af854a3a-2127-422b-91ae-364da2661108"
+     }
+    ]
+   }
+  },
+  {
+   "cve": {
+    "id": "CVE-2024-8926",
+    "sourceIdentifier": "security@php.net",
+    "published": "2026-11-16T09:15:00.000",
+    "lastModified": "2026-06-17T08:23:34.560",
+    "vulnStatus": "Modified",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "In PHP versions 8.1.* before 8.1.30, 8.2.* before 8.2.24, 8.3.* before 8.3.12,\u00a0when using a certain non-standard configurations of Windows codepages, the fixes for\u00a0 CVE-2024-4577 https://github.com/advisories/GHSA-vxpp-6299-mxw3 \u00a0may still be bypassed and the same command injection related to Windows \"Best Fit\" codepage behavior can be achieved. This\u00a0may allow a malicious user to pass options to PHP binary being run, and thus reveal the source code of scripts, run arbitrary PHP code on the server, etc."
+     },
+     {
+      "lang": "es",
+      "value": "En las versiones de PHP 8.1.* anteriores a 8.1.30, 8.2.* anteriores a 8.2.24, 8.3.* anteriores a 8.3.12, al utilizar ciertas configuraciones no est\u00e1ndar de p\u00e1ginas de c\u00f3digos de Windows, las correcciones para CVE-2024-4577 https://github.com/advisories/GHSA-vxpp-6299-mxw3 a\u00fan se pueden omitir y se puede lograr la misma inyecci\u00f3n de comandos relacionada con el comportamiento de la p\u00e1gina de c\u00f3digos \"Best Fit\" de Windows. Esto puede permitir que un usuario malintencionado pase opciones al binario PHP que se est\u00e1 ejecutando y, por lo tanto, revele el c\u00f3digo fuente de los scripts, ejecute c\u00f3digo PHP arbitrario en el servidor, etc."
+     }
+    ],
+    "affected": [
+     {
+      "source": "security@php.net",
+      "affectedData": [
+       {
+        "vendor": "PHP Group",
+        "product": "PHP",
+        "defaultStatus": "affected",
+        "platforms": [
+         "Windows"
+        ],
+        "versions": [
+         {
+          "version": "8.1.*",
+          "lessThan": "8.1.30",
+          "versionType": "semver",
+          "status": "affected"
+         },
+         {
+          "version": "8.2.*",
+          "lessThan": "8.2.24",
+          "versionType": "semver",
+          "status": "affected"
+         },
+         {
+          "version": "8.3.*",
+          "lessThan": "8.3.12",
+          "versionType": "semver",
+          "status": "affected"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+      "affectedData": [
+       {
+        "vendor": "php",
+        "product": "php",
+        "defaultStatus": "unknown",
+        "cpes": [
+         "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*"
+        ],
+        "versions": [
+         {
+          "version": "8.1.0",
+          "lessThan": "8.1.30",
+          "versionType": "semver",
+          "status": "affected"
+         },
+         {
+          "version": "8.2.0",
+          "lessThan": "8.2.24",
+          "versionType": "semver",
+          "status": "affected"
+         },
+         {
+          "version": "8.3.0",
+          "lessThan": "8.3.12",
+          "versionType": "semver",
+          "status": "affected"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "security@php.net",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.1,
+        "baseSeverity": "HIGH",
+        "attackVector": "NETWORK",
+        "attackComplexity": "HIGH",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 2.2,
+       "impactScore": 5.9
+      },
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8,
+        "baseSeverity": "HIGH",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "LOW",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 2.8,
+       "impactScore": 5.9
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2024-10-08T12:55:27.311454Z",
+        "id": "CVE-2024-8926",
+        "options": [
+         {
+          "exploitation": "none"
+         },
+         {
+          "automatable": "no"
+         },
+         {
+          "technicalImpact": "total"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "weaknesses": [
+     {
+      "source": "security@php.net",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-78"
+       }
+      ]
+     },
+     {
+      "source": "nvd@nist.gov",
+      "type": "Primary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-78"
+       }
+      ]
+     }
+    ],
+    "configurations": [
+     {
+      "nodes": [
+       {
+        "operator": "OR",
+        "negate": false,
+        "cpeMatch": [
+         {
+          "vulnerable": true,
+          "criteria": "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+          "versionStartIncluding": "8.1.0",
+          "versionEndExcluding": "8.1.30",
+          "matchCriteriaId": "0AE1547D-26D1-4BD3-9EF8-B0E61BB7FFCB"
+         },
+         {
+          "vulnerable": true,
+          "criteria": "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+          "versionStartIncluding": "8.2.0",
+          "versionEndExcluding": "8.2.24",
+          "matchCriteriaId": "01D71D50-4234-4537-984F-DB2A675EDA24"
+         },
+         {
+          "vulnerable": true,
+          "criteria": "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+          "versionStartIncluding": "8.3.0",
+          "versionEndExcluding": "8.3.12",
+          "matchCriteriaId": "3236DC72-ADB3-44C3-8A19-4EC37B9FFDD7"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-p99j-rfp4-xqvq",
+      "source": "security@php.net",
+      "tags": [
+       "Exploit",
+       "Vendor Advisory"
+      ]
+     },
+     {
+      "url": "https://security.netapp.com/advisory/ntap-20241101-0003/",
+      "source": "af854a3a-2127-422b-91ae-364da2661108"
+     }
+    ]
+   }
+  },
+  {
+   "cve": {
+    "id": "CVE-2026-990001",
+    "published": "2026-11-18T08:00:00.000",
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "A SQL injection vulnerability in SourceCodester Online Shop 1.0, a web application written in PHP, allows remote attackers to execute arbitrary SQL via the id parameter."
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "baseScore": 9.8,
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+       }
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -43,6 +43,7 @@
 
     <!-- Detaljsidan -->
     <string name="open_in_browser">Öppna i webbläsaren</string>
+    <string name="reason_software">Du kör %1$s – kritiska sårbarheter i det visas alltid</string>
     <string name="reason_kev">Utnyttjas aktivt – finns i CISA:s katalog över utnyttjade sårbarheter sedan %1$s</string>
     <string name="reason_cvss">CVSS %1$s av 10</string>
     <string name="reason_unscored">NVD har inte satt någon CVSS-poäng än</string>
@@ -55,6 +56,7 @@
     <string name="reason_certse_item">CERT-SE har gått ut med en varning om en kritisk sårbarhet</string>
     <string name="reason_certse">Nämns av CERT-SE</string>
     <string name="fact_platform">Plattform</string>
+    <string name="fact_software">Program</string>
     <string name="fact_cvss">CVSS</string>
     <string name="fact_epss">EPSS</string>
     <string name="fact_epss_value">%1$s %% (högre än %2$d %% av alla)</string>
@@ -101,6 +103,8 @@
     <string name="help_normal" formatted="false">Sårbarheter som utnyttjas aktivt, har CVSS 9 eller högre och kan angripas över nätet utan inloggning, och dessutom utnyttjade som används för ransomware eller som CERT-SE varnar för. Nya sårbarheter kräver CVSS 9+ och EPSS på minst 40 %. Två eller tre i veckan.</string>
     <string name="help_broad" formatted="false">Allt som utnyttjas aktivt med CVSS 8 eller högre, eller 7 och högre om det nås över nätet utan inloggning. Nya sårbarheter kräver CVSS 9+ och EPSS på minst 20 %. Flera i veckan.</string>
     <string name="platforms">Plattformar</string>
+    <string name="software">Program du kör</string>
+    <string name="software_help">Kritiska sårbarheter (CVSS 9 eller högre) i programmen du slår på visas alltid och ger notis, även innan någon utnyttjar dem. De visas även om leverantören är dold eller plattformen avstängd.</string>
     <string name="platforms_help">Bara sårbarheter i det du slår på här visas och ger notiser. Plattformen läses från NVD:s lista över drabbade produkter (CPE), eller från leverantörens och produktens namn.</string>
     <string name="time_span">Tidsperiod</string>
     <string name="last_days">Senaste %1$d dagarna</string>

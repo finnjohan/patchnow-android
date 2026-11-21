@@ -45,6 +45,7 @@
 
     <!-- Detaljsidan -->
     <string name="open_in_browser">Open in browser</string>
+    <string name="reason_software">You run %1$s – critical vulnerabilities in it are always shown</string>
     <string name="reason_kev">Actively exploited – in CISA\'s catalog of known exploited vulnerabilities since %1$s</string>
     <string name="reason_cvss">CVSS %1$s of 10</string>
     <string name="reason_unscored">No CVSS score from NVD yet</string>
@@ -57,6 +58,7 @@
     <string name="reason_certse_item">CERT-SE has published a warning about a critical vulnerability</string>
     <string name="reason_certse">Mentioned by CERT-SE</string>
     <string name="fact_platform">Platform</string>
+    <string name="fact_software">Software</string>
     <string name="fact_cvss">CVSS</string>
     <string name="fact_epss">EPSS</string>
     <string name="fact_epss_value">%1$s %% (higher than %2$d %% of all)</string>
@@ -103,6 +105,8 @@
     <string name="help_normal" formatted="false">Actively exploited vulnerabilities with CVSS 9 or higher that can be attacked over the network without login, plus exploited ones used for ransomware or flagged by CERT-SE. New vulnerabilities need CVSS 9+ and an EPSS of at least 40 %. Two or three a week.</string>
     <string name="help_broad" formatted="false">Everything actively exploited with CVSS 8 or higher, or 7 and higher if reachable over the network without login. New vulnerabilities need CVSS 9+ and an EPSS of at least 20 %. Several a week.</string>
     <string name="platforms">Platforms</string>
+    <string name="software">Software you run</string>
+    <string name="software_help">Critical vulnerabilities (CVSS 9 or higher) in the programs you turn on are always shown and notified, even before anyone exploits them. They are shown even if the vendor is hidden or the platform is turned off.</string>
     <string name="platforms_help">Only vulnerabilities in what you turn on here are shown and notified. The platform is read from the NVD\'s list of affected products (CPE), or from the vendor and product name.</string>
     <string name="time_span">Time span</string>
     <string name="last_days">Last %1$d days</string>

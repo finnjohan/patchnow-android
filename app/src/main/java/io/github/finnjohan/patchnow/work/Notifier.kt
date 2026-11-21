@@ -44,7 +44,8 @@ object Notifier {
     }
 
     private fun headline(it: Item): String =
-        if (it.kind == "certse") "CERT-SE – ${it.name}" else "${it.id} – ${title(it)}"
+        if (it.kind == "certse") "CERT-SE – ${it.name}"
+        else title(it).let { t -> if (t == it.id) it.id else "${it.id} – $t" }
 
     private fun summary(context: Context, it: Item): String {
         val parts = ArrayList<String>()
