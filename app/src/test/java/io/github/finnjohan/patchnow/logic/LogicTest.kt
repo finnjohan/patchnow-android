@@ -223,4 +223,65 @@ class LogicTest {
         val n = parseNvd(fixture("nvd-recent.json"))
         assertEquals(n, nvdFromJson(nvdToJson(n)))
     }
+
+    // ---- 1.2.0: VMware, Proxmox, MySQL/MariaDB, Jenkins, GitLab --------------------
+
+    private fun certse(title: String): Item =
+        Item("certse", "C", "CERT-SE", "", title, "", null, -1.0, "", "", emptyMap(), emptyList(), -1.0, -1.0, "",
+            ArrayList(), emptyList(), "C", 0)
+
+    @Test fun moreSoftwareMatching() {
+        assertEquals(11, SOFTWARE.size)
+        assertTrue(SOFTWARE.all { SOFTWARE_NAMES.containsKey(it) && SOFTWARE_SHORT.containsKey(it) })
+        val r = recentList().associateBy { it.id }
+        assertEquals("vmware", softwareOf(r.getValue("CVE-2024-38812"), swAll))     // vCenter, CPE
+        assertEquals("jenkins", softwareOf(r.getValue("CVE-2024-23897"), swAll))
+        assertEquals("gitlab", softwareOf(r.getValue("CVE-2023-7028"), swAll))
+        assertEquals("mysql", softwareOf(r.getValue("CVE-2016-6662"), swAll))       // MySQL + MariaDB
+        assertEquals("proxmox", softwareOf(r.getValue("CVE-2024-21545"), swAll))    // ingen CPE, beskrivningen
+        assertEquals("", softwareOf(r.getValue("CVE-2022-22947"), swAll))           // a:vmware:spring_cloud_gateway
+        assertEquals("", softwareOf(r.getValue("CVE-2024-38812"), setOf("gitlab")))
+        // Nytt VMSA innan NVD har analyserat det (ingen CPE)
+        fun d(text: String, s: Set<String> = swAll) = softwareOf(named("", "", desc = text), s)
+        assertEquals("vmware", d("VMware vCenter Server contains an authentication bypass vulnerability in the VMware Directory Service."))
+        assertEquals("vmware", d("VMware ESX contains a heap out-of-bounds write vulnerability."))
+        assertEquals("vmware", d("VMware ESXi, Workstation, and Fusion contain an out-of-bounds write in the XHCI USB controller."))
+        assertEquals("", d("VMware Workstation and Fusion contain a use-after-free vulnerability."))
+        assertEquals("vmware", d("VMware Tools for Windows contains an authentication bypass in VGAuth."))
+        assertEquals("", d("In Spring Framework versions 6.1.0 - 6.1.5 (VMware Tanzu) a redirect is possible."))
+        assertEquals("mysql", d("Vulnerability in the MySQL Server product of Oracle MySQL (component: Server: Optimizer)."))
+        assertEquals("mysql", d("MariaDB Server 11.4 before 11.4.5 allows a crash."))
+        assertEquals("", d("Vulnerability in the MySQL Connectors product of Oracle MySQL (component: Connector/J)."))
+        assertEquals("", d("Online Shop 1.0 is vulnerable to SQL injection via id; the backend is MySQL 5.7."))
+        assertEquals("gitlab", d("An issue has been discovered in GitLab EE affecting all versions starting from 17.0."))
+        assertEquals("", d("Jenkins GitLab Plugin 1.9.1 and earlier does not perform a permission check.", setOf("gitlab")))
+        assertEquals("jenkins", d("Jenkins GitLab Plugin 1.9.1 and earlier does not perform a permission check."))
+        assertEquals("proxmox", d("Proxmox Backup Server before 3.2 allows path traversal."))
+        assertEquals("jenkins", softwareOf(named("", "", listOf("a:jenkins:script_security"), sw = listOf("jenkins")), setOf("jenkins")))
+        // KEV-namn och CERT-SE-rubriker
+        assertEquals("vmware", softwareOf(named("VMware", "vCenter Server"), swAll))
+        assertEquals("vmware", softwareOf(named("VMware", "ESXi and Workstation"), swAll))
+        assertEquals("", softwareOf(named("VMware", "Spring Cloud Gateway"), swAll))
+        assertEquals("mysql", softwareOf(named("Oracle", "MySQL"), swAll))
+        assertEquals("jenkins", softwareOf(named("Jenkins", "Jenkins Command Line Interface (CLI)"), swAll))
+        assertEquals("gitlab", softwareOf(named("GitLab", "GitLab CE/EE"), swAll))
+        assertEquals("vmware", softwareOf(certse("Kritiska sårbarheter i VMware vCenter och ESX"), swAll))
+        assertEquals("gitlab", softwareOf(certse("Kritisk sårbarhet i GitLab"), swAll))
+        assertEquals("proxmox", softwareOf(certse("Kritisk sårbarhet i Proxmox VE"), swAll))
+    }
+
+    @Test fun moreSoftwareAssessment() {
+        val vc = recentList().first { it.id == "CVE-2024-38812" }
+        assertEquals(0, evaluate(vc, "strict").tier)                               // 9,8 men ingen KEV/EPSS
+        for (lv in listOf("strict", "normal", "broad")) assertEquals(2, evaluate(vc, lv, "vmware").tier)
+        val px = recentList().first { it.id == "CVE-2024-21545" }
+        assertEquals(0, evaluate(px, "broad", "proxmox").tier)                     // 8,2
+        // VMware visas trots att hypervisorer är avstängda
+        val off = assess(recentList(), "normal", emptySet(), emptySet(), all + ("virt" to false), setOf("vmware")).items
+        assertTrue(off.any { it.id == "CVE-2024-38812" && it.tier == 2 && it.software == "vmware" })
+        assertEquals("VMware vSphere (ESX, vCenter)", title(off.first { it.id == "CVE-2024-38812" }))
+        // Demo (Apache och nginx valda) påverkas inte av de nya posterna
+        val demo = assess(recentList(), "strict", emptySet(), emptySet(), all, setOf("apache", "nginx", "php")).items
+        assertEquals(listOf("CVE-2024-38476", "CVE-2025-1974"), demo.filter { it.tier == 2 }.map { it.id }.sorted())
+    }
 }

@@ -8,7 +8,7 @@ PatchNow visar bara de sårbarheter som behöver åtgärdas nu: de som utnyttjas
 - Hämtar CISA:s katalog Known Exploited Vulnerabilities (KEV), NVD (CVSS, CPE och CISA:s SSVC), EPSS från FIRST och CERT-SE:s flöde.
 - Tre nivåer: Strikt, Normal och Bred.
 - Plattformsfilter: Windows Server, Linux, serverprogram och hypervisorer som standard. Nätverksutrustning och datorer/mobiler går att slå på.
-- Program du kör: välj PHP, Drupal, CakePHP, nginx, Java eller Apache HTTP Server, så ger kritiska sårbarheter (CVSS 9+) i dem notis även innan de utnyttjas.
+- Program du kör: välj PHP, Drupal, CakePHP, nginx, Java, Apache HTTP Server, VMware vSphere (ESX, vCenter), Proxmox, MySQL/MariaDB, Jenkins eller GitLab, så ger kritiska sårbarheter (CVSS 9+) i dem notis även innan de utnyttjas.
 - Notis när något nytt blir kritiskt, med tyst tid 22–07.
 - Kollar i bakgrunden varje timme, var 3:e eller var 6:e timme med WorkManager, även när appen är stängd.
 - Svep åt höger för att markera som åtgärdad, åt vänster för att dölja en leverantör.

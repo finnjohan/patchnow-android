@@ -420,11 +420,15 @@ fun merge(kev: List<Kev>, nvd: Map<String, Nvd>, epss: Map<String, Epss>, feed: 
 // Kritiska sårbarheter (CVSS 9+) i valda program visas alltid, även innan de utnyttjas.
 // Matchning: CPE (och target_sw) i första hand. Utan CPE: leverantör/produkt och beskrivning.
 
-val SOFTWARE = listOf("php", "drupal", "cakephp", "nginx", "java", "apache")
+val SOFTWARE = listOf("php", "drupal", "cakephp", "nginx", "java", "apache",
+    "vmware", "proxmox", "mysql", "jenkins", "gitlab")
 val SOFTWARE_NAMES = mapOf("php" to "PHP", "drupal" to "Drupal", "cakephp" to "CakePHP", "nginx" to "nginx",
-    "java" to "Java (JDK/JRE)", "apache" to "Apache HTTP Server")
+    "java" to "Java (JDK/JRE)", "apache" to "Apache HTTP Server",
+    "vmware" to "VMware vSphere (ESX, vCenter)", "proxmox" to "Proxmox (VE, Backup Server)",
+    "mysql" to "MySQL / MariaDB", "jenkins" to "Jenkins", "gitlab" to "GitLab")
 val SOFTWARE_SHORT = mapOf("php" to "PHP", "drupal" to "Drupal", "cakephp" to "CakePHP", "nginx" to "nginx",
-    "java" to "Java", "apache" to "Apache httpd")
+    "java" to "Java", "apache" to "Apache httpd",
+    "vmware" to "VMware", "proxmox" to "Proxmox", "mysql" to "MySQL", "jenkins" to "Jenkins", "gitlab" to "GitLab")
 
 private val SW_CPE = mapOf(
     "php" to Regex("^a:php:php$"),
@@ -432,9 +436,15 @@ private val SW_CPE = mapOf(
     "cakephp" to Regex("^a:cakephp:cakephp"),
     "nginx" to Regex("^a:(f5|nginx):nginx|^a:kubernetes:ingress[-_]nginx"),
     "java" to Regex("^a:oracle:(jdk|jre|java_se|openjdk|graalvm)|^a:(openjdk:|eclipse:temurin|azul:zulu|bellsoft:liberica|amazon:corretto|ibm:(java|semeru)|redhat:(openjdk|build_of_openjdk)|microsoft:(openjdk|build_of_openjdk))"),
-    "apache" to Regex("^a:apache:http_server$")
+    "apache" to Regex("^a:apache:http_server$"),
+    // vSphere och det som hör till (inte Spring, Tanzu, Horizon eller Workstation/Fusion)
+    "vmware" to Regex("^[ao]:(vmware|broadcom):(esxi?|vcenter|vsphere|cloud_foundation|vcloud|nsx|aria|vrealize|hcx|avi|tools|vmware_tools|telco_cloud|sd-wan|site_recovery|vsan|cloud_director)"),
+    "proxmox" to Regex("^a:proxmox:"),
+    "mysql" to Regex("^a:(oracle:mysql(_server)?$|mysql:mysql$|mariadb:mariadb$|percona:percona_server$)"),
+    "jenkins" to Regex("^a:jenkins:"),
+    "gitlab" to Regex("^a:gitlab:")
 )
-private val SW_TARGET = mapOf("drupal" to Regex("^drupal"), "php" to Regex("^php$"))
+private val SW_TARGET = mapOf("drupal" to Regex("^drupal"), "php" to Regex("^php$"), "jenkins" to Regex("^jenkins$"))
 // Leverantör + produkt (KEV) och CERT-SE-rubriker, i gemener
 private val SW_NAME = mapOf(
     "php" to Regex("(^|[^\\w-])php([^\\w-]|$)"),
@@ -442,7 +452,12 @@ private val SW_NAME = mapOf(
     "cakephp" to Regex("\\bcakephp\\b"),
     "nginx" to Regex("\\bnginx\\b"),
     "java" to Regex("\\b(java se|java runtime|openjdk|jdk|jre)\\b|\\boracle java\\b"),
-    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b")
+    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b"),
+    "vmware" to Regex("\\bvmware\\b|\\besxi?\\b|\\bvcenter\\b|\\bvsphere\\b"),
+    "proxmox" to Regex("\\bproxmox\\b"),
+    "mysql" to Regex("\\bmysql\\b|\\bmariadb\\b"),
+    "jenkins" to Regex("\\bjenkins\\b"),
+    "gitlab" to Regex("\\bgitlab\\b")
 )
 // Beskrivningen, i gemener (bara när NVD inte har listat produkterna än)
 private val SW_DESC = mapOf(
@@ -451,8 +466,21 @@ private val SW_DESC = mapOf(
     "cakephp" to Regex("\\bcakephp\\b"),
     "nginx" to Regex("\\bnginx\\b"),
     "java" to Regex("\\b(oracle java se|java se|openjdk|java runtime environment)\\b"),
-    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b")
+    "apache" to Regex("\\bapache http server\\b|\\bapache httpd\\b"),
+    "vmware" to Regex("\\bvmware (esxi?|vcenter|vsphere|cloud foundation|nsx|aria|vrealize|hcx|avi|tools|telco cloud|vsan)\\b|\\bvcenter server\\b|\\besxi?\\b"),
+    "proxmox" to Regex("\\bproxmox\\b"),
+    // "MySQL" i en SQL-injektion i en webbapp räcker inte
+    "mysql" to Regex("\\b(oracle )?mysql server\\b|\\boracle mysql\\b|\\bmysql (versions?|before|prior to|through) ?\\d|\\bmysql \\d+\\.\\d+(\\.\\d+)?\\b|\\bmariadb (server|versions?|before|prior to|through|\\d)"),
+    "jenkins" to Regex("\\bjenkins\\b"),
+    "gitlab" to Regex("\\bgitlab (ce|ee|community edition|enterprise edition|runner)\\b|\\bin gitlab\\b|\\bgitlab \\d+\\.\\d")
 )
+// Undantag för namn och beskrivning (CPE är redan exakt)
+private val SW_NOT = mapOf(
+    "vmware" to Regex("\\b(spring|tanzu|horizon|workspace one|airwatch|carbon black|greenplum|rabbitmq|salt ?stack|gemfire)\\b|^(?!.*\\b(esxi?|vcenter|vsphere|cloud foundation)\\b).*\\b(workstation|fusion)\\b"),
+    "gitlab" to Regex("\\bjenkins\\b|\\bplugin\\b"),
+    "mysql" to Regex("\\b(connector|workbench|mysql router|mysql shell|enterprise monitor|phpmyadmin)\\b|\\bsql injection\\b")
+)
+private fun excluded(k: String, text: String): Boolean = SW_NOT[k]?.containsMatchIn(text) == true
 
 // Vilket av de valda programmen posten gäller, eller "".
 fun softwareOf(it: Item, software: Set<String>): String {
@@ -464,8 +492,8 @@ fun softwareOf(it: Item, software: Set<String>): String {
         if (it.cpes.any { c -> SW_CPE.getValue(k).containsMatchIn(c) }) return k
         val t = SW_TARGET[k]
         if (t != null && it.sw.any { s -> t.containsMatchIn(s) }) return k
-        if (names.isNotBlank() && SW_NAME.getValue(k).containsMatchIn(names)) return k
-        if (it.cpes.isEmpty() && SW_DESC.getValue(k).containsMatchIn(desc)) return k
+        if (names.isNotBlank() && SW_NAME.getValue(k).containsMatchIn(names) && !excluded(k, names)) return k
+        if (it.cpes.isEmpty() && SW_DESC.getValue(k).containsMatchIn(desc) && !excluded(k, desc)) return k
     }
     return ""
 }

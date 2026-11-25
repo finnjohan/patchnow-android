@@ -4,6 +4,7 @@ PatchNow visar bara de sårbarheter som behöver åtgärdas nu: de som utnyttjas
 <li>Hämtar CISA:s katalog över utnyttjade sårbarheter (KEV), NVD (CVSS och CISA:s SSVC-bedömning), EPSS från FIRST och varningar från CERT-SE</li>
 <li>Listan "Åtgärda nu": utnyttjas aktivt, CVSS 9 eller högre och kan angripas över nätet utan inloggning, samt ransomware och CERT-SE-varningar</li>
 <li>Tre nivåer: Strikt, Normal och Bred</li>
+<li>"Program du kör": slå på PHP, Drupal, CakePHP, nginx, Java, Apache HTTP Server, VMware vSphere, Proxmox, MySQL/MariaDB, Jenkins eller GitLab, så ger kritiska sårbarheter (CVSS 9+) i dem notis direkt, även innan någon utnyttjar dem</li>
 <li>Plattformsfilter: Windows Server, Linux, serverprogram och hypervisorer som standard. Nätverksutrustning och datorer/mobiler går att slå på</li>
 <li>Notis när något nytt blir kritiskt, med tyst tid på natten</li>
 <li>Kollar i bakgrunden varje timme, var 3:e eller var 6:e timme, även när appen är stängd</li>

@@ -1,0 +1,1 @@
+Fler program under "Program du kör": VMware vSphere (ESX, vCenter), Proxmox, MySQL/MariaDB, Jenkins (även tillägg) och GitLab. Kritiska sårbarheter (CVSS 9+) i dem visas och ger notis direkt, även innan de utnyttjas.
